@@ -16,12 +16,12 @@ on:
 env:                      # 环境变量
   MHZ: 1100               # CPU超频频率 必须为20的倍数。开启超频请修改124行超频选项
   TNAME: RM2100           # 配置文件名  https://github.com/hanwckf/rt-n56u/tree/master/trunk/configs/templates
-  BUILD_VERSION: hanwckf  # hanwckf 或者 chongshengB
+  BUILD_VERSION: chongshengB  # hanwckf 或者 chongshengB
   FILE_PATH: /opt/images
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
@@ -33,6 +33,7 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
       run: |
         sudo apt-get update
+        sudo apt-get -y install python-docutil
         sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot \
         cpio git python-docutils gettext automake autopoint texinfo build-essential help2man \
         pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget
@@ -181,8 +182,8 @@ jobs:
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
       with:
-        retain_days: 3
-        keep_minimum_runs: 0
+        retain_days: 1
+        keep_minimum_runs: 2
 
     - name: Remove old releases
       uses: dev-drprasad/delete-older-releases@v0.2.0
